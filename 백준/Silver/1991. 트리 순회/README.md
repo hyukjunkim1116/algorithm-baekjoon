@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 14148 KB, 시간: 100 ms
+메모리: 14056 KB, 시간: 100 ms
 
 ### 분류
 
@@ -12,13 +12,13 @@
 
 ### 제출 일자
 
-2024년 12월 2일 15:52:06
+2024년 12월 2일 16:05:17
 
 ### 문제 설명
 
 <p>이진 트리를 입력받아 전위 순회(preorder traversal), 중위 순회(inorder traversal), 후위 순회(postorder traversal)한 결과를 출력하는 프로그램을 작성하시오.</p>
 
-<p style="text-align: center;"><img alt="" src="" style="height:220px; width:265px"></p>
+<p style="text-align: center;"><img alt="" src="https://www.acmicpc.net/JudgeOnline/upload/201007/trtr.png" style="height:220px; width:265px"></p>
 
 <p>예를 들어 위와 같은 이진 트리가 입력되면,</p>
 

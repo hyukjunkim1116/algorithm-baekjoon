@@ -7,6 +7,27 @@ public class Main {
     static StringBuilder preorder = new StringBuilder();
     static StringBuilder inorder = new StringBuilder();
     static StringBuilder postorder = new StringBuilder();
+        
+   static void preorder(int node) {
+        if(node == -1) return;
+        preorder.append((char)(node + 'A'));  // 루트
+        preorder(tree[node][0]);              // 왼쪽
+        preorder(tree[node][1]);              // 오른쪽
+    }
+
+    static void inorder(int node) {
+        if(node == -1) return;
+        inorder(tree[node][0]);               // 왼쪽
+        inorder.append((char)(node + 'A'));   // 루트
+        inorder(tree[node][1]);               // 오른쪽
+    }
+
+    static void postorder(int node) {
+        if(node == -1) return;
+        postorder(tree[node][0]);             // 왼쪽
+        postorder(tree[node][1]);             // 오른쪽
+        postorder.append((char)(node + 'A')); // 루트
+    } 
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,27 +50,13 @@ public class Main {
         }
         
         // 순회 시작 (루트 노드 A는 인덱스 0)
-        traverse(0);
+        preorder(0);
+        inorder(0);
+        postorder(0);
         
         // 결과 출력
         System.out.println(preorder);
         System.out.println(inorder);
         System.out.println(postorder);
-    }
-    
-    // 트리 순회 메소드
-    static void traverse(int node) {
-        if(node == -1) return;  // 자식이 없는 경우
-        
-        // 전위 순회 (루트 -> 왼쪽 -> 오른쪽)
-        preorder.append((char)(node + 'A'));
-        traverse(tree[node][0]);  // 왼쪽 자식으로 이동
-        
-        // 중위 순회 (왼쪽 -> 루트 -> 오른쪽)
-        inorder.append((char)(node + 'A'));
-        traverse(tree[node][1]);  // 오른쪽 자식으로 이동
-        
-        // 후위 순회 (왼쪽 -> 오른쪽 -> 루트)
-        postorder.append((char)(node + 'A'));
     }
 }
