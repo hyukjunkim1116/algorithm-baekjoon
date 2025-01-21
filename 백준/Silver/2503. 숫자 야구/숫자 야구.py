@@ -1,38 +1,68 @@
-N = int(input())
-hint_list = [list(map(int,(input().split()))) for _ in range(N)]
-# 123 1 1
-# 356 1 0
-# 327 2 0
-# 489 0 1
-answer = 0
+import sys
+sys.setrecursionlimit(9999999)
 
-for a in range(1,10):
-  for b in range(1,10):
-    for c in range(1,10):
-      if a != b and b != c and c != a:
-        count = 0
-        for hint in hint_list:
-          strike_count = 0
-          ball_count = 0
-          hint_input = hint[0] #123
-          hint_100 = hint_input // 100  # 100의 자리수
-          hint_10 = (hint_input % 100) // 10  # 10의 자리수
-          hint_1 = (hint_input % 10) // 1 # 1의 자리수
-          if (a == hint_100):
-            strike_count+=1
-          if (b == hint_10):
-            strike_count+=1
-          if (c== hint_1):
-            strike_count+=1
-          if (a == hint_10 or a== hint_1):
-            ball_count+=1
-          if b == hint_100 or b == hint_1:
-            ball_count+=1
-          if c== hint_100 or c == hint_10:
-            ball_count+=1
-          if strike_count == hint[1] and ball_count == hint[2]:
-            count+=1
-        if count == N:
-          answer +=1
-          count = 0
+
+def checker(idx,number):
+    _number = hint[idx][0]
+    _strike = hint[idx][1]
+    _ball = hint[idx][2]
+
+    strike = 0
+    ball = 0
+
+    _A = _number // 100
+    _B = (_number - (_A * 100)) // 10 
+    _C = _number % 10
+
+
+    A = number // 100
+    B = (number - (A * 100)) // 10 
+    C = number % 10
+    if A == 0 or B == 0 or C == 0:
+        return False
+
+    if A == B or A == C or B == C:
+        return False
+
+    if A == _A:
+        strike+= 1
+    if B == _B:
+        strike+= 1
+    if C == _C:
+        strike+= 1
+    
+    if A == _B or A == _C:
+        ball += 1
+    if B == _A or B == _C:
+        ball += 1
+    if C == _A or C == _B:
+        ball += 1
+    
+    if strike == _strike and ball == _ball:
+        return True
+
+    return False
+
+
+def recur(idx, number):
+    global answer
+
+    if idx == n:
+        answer += 1
+        # print(number)
+        recur(0, number+1)
+        return
+    
+    if number == 1000:
+        return
+    
+    if checker(idx,number):
+        recur(idx+1, number)
+    else:
+        recur(0, number+1)
+
+n = int(input())
+hint = [list(map(int,input().split())) for _ in range(n)]
+answer = 0
+recur(0, 100)
 print(answer)
