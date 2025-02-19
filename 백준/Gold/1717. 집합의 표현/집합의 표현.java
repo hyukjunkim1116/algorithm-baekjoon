@@ -1,73 +1,63 @@
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-
-    static int[] parent;
-
+    static int[] par;
+    static int[] rank;
+    
+    static int find(int a) {
+        if (par[a] == a) {
+            return a;
+        }
+        return par[a] = find(par[a]);  // Path compression
+    }
+    
+    static void union(int a, int b) {
+        a = find(a);
+        b = find(b);
+        
+        if (a == b) return;
+        
+        if (rank[a] < rank[b]) {
+            par[a] = b;
+        } else if (rank[a] > rank[b]) {
+            par[b] = a;
+        } else {
+            par[b] = a;
+            rank[a]++;
+        }
+    }
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
+        StringBuilder sb = new StringBuilder();
+        
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-
-        parent = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            parent[i] = i;
+        
+        par = new int[N + 1];
+        rank = new int[N + 1];
+        
+        // Initialize parent array
+        for (int i = 0; i <= N; i++) {
+            par[i] = i;
         }
-
-        StringBuilder sb = new StringBuilder();
-
+        
+        // Process queries
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int command = Integer.parseInt(st.nextToken());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-
-            if (command == 0) {
-                union(a, b);
-            } else if (command == 1) {
-                sb.append((isSameParent(a, b) ? "YES" : "NO") + "\n");
+            int X = Integer.parseInt(st.nextToken());
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
+            
+            if (X == 0) {
+                union(A, B);
             } else {
-                continue;
-            } 
+                sb.append(find(A) == find(B) ? "YES\n" : "NO\n");
+            }
         }
-
-        bw.write(sb.toString());
-        bw.flush();
-        bw.close();
-        br.close();
-    }
-
-    private static int find(int x) {
-        if (x == parent[x]) {
-            return x;
-        }
-        return parent[x] = find(parent[x]);
-    }
-
-    private static void union(int x, int y) {
-        x = find(x);
-        y = find(y);
-
-        if (x != y) {
-            if (x < y) {
-                parent[y] = x;
-            } else {
-                parent[x] = y;
-            } 
-        }
-    }
-
-    private static boolean isSameParent(int x, int y) {
-        x = find(x);
-        y = find(y);
-
-        if (x == y) {
-            return true;
-        }
-        return false;
+        
+        System.out.print(sb);
     }
 }
